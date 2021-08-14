@@ -18,7 +18,7 @@ from timm.models.vision_transformer import _cfg, Mlp, Block
 
 _model_urls = {
     'crossvit_15_224': 'pretrained/crossvit_15_224_.pth',
-    'crossvit_15_dagger_224'; 'pretrained/crossvit_15_dagger_224_.pth',
+    'crossvit_15_dagger_224': 'pretrained/crossvit_15_dagger_224_.pth',
     'crossvit_15_dagger_384': 'pretrained/crossvit_15_dagger_384_.pth',
     'crossvit_18_224': 'pretrained/crossvit_18_224_.pth',
     'crossvit_18_dagger_224': 'pretrained/crossvit_18_dagger_224_.pth',
