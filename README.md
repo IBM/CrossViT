@@ -4,6 +4,7 @@ This repository is the official implementation of CrossViT: Cross-Attention Mult
 
 If you use the codes and models from this repo, please cite our work. Thanks!
 
+```
 @inproceedings{
     chen2021crossvit,
     title={{CrossViT: Cross-Attention Multi-Scale Vision Transformer for Image Classification}},
@@ -11,7 +12,7 @@ If you use the codes and models from this repo, please cite our work. Thanks!
     booktitle={International Conference on Computer Vision (ICCV)},
     year={2021}
 }
- 
+```
 
 ## Image Classification
 
@@ -55,7 +56,7 @@ We provide models trained on ImageNet1K.
 
 ### Training
 
-To train CrossViT-9$\dagger$ on ImageNet on a single node with 8 gpus for 300 epochs run:
+To train `crossvit_9_dagger_224` on ImageNet on a single node with 8 gpus for 300 epochs run:
 
 ```shell script
 
@@ -68,7 +69,7 @@ Other model names can be found at [models/crossvit.py](models/crossvit.py).
 
 Distributed training is available via Slurm and `submitit`:
 
-To train a CrossViT-9$\dagger$ model on ImageNet on 4 nodes with 8 gpus each for 300 epochs:
+To train a `crossvit_9_dagger_224` model on ImageNet on 4 nodes with 8 gpus each for 300 epochs:
 
 ```
 python run_with_submitit.py --model crossvit_9_dagger_224 --data-path /path/to/imagenet --batch-size 128 --warmup-epochs 30
