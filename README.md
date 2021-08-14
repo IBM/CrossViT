@@ -43,15 +43,9 @@ The directory structure is the standard layout for the torchvision [`datasets.Im
       img4.jpeg
 ```
 
-### Model Zoo
+### Pretrained models
 
-We provide models trained on ImageNet1K.
-
-| Name | Acc@1 (%) | FLOPs (G)  | Params (M) | Url |
-| --- | --- | --- | --- | --- |
-| CrossViT-9$\dagger$ | 77.1 | 2.0 | 8.8M | [model]() |
-| CrossViT-15$\dagger$ | 82.3 | 6.1 | 28.2M | [model]() |
-| CrossViT-18$\dagger$ | 82.8 | 9.5 | 44.3M | [model]() |
+We provide models trained on ImageNet1K. You can find models [here](https://github.com/IBM/CrossViT/releases/tag/weights-0.1).
 
 
 ### Training
