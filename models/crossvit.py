@@ -10,23 +10,25 @@ Modifed from Timm. https://github.com/rwightman/pytorch-image-models/blob/master
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+import torch.hub
 from functools import partial
+
 
 from timm.models.layers import DropPath, to_2tuple, trunc_normal_
 from timm.models.registry import register_model
 from timm.models.vision_transformer import _cfg, Mlp, Block
 
 _model_urls = {
-    'crossvit_15_224': 'pretrained/crossvit_15_224_.pth',
-    'crossvit_15_dagger_224': 'pretrained/crossvit_15_dagger_224_.pth',
-    'crossvit_15_dagger_384': 'pretrained/crossvit_15_dagger_384_.pth',
-    'crossvit_18_224': 'pretrained/crossvit_18_224_.pth',
-    'crossvit_18_dagger_224': 'pretrained/crossvit_18_dagger_224_.pth',
-    'crossvit_18_dagger_384': 'pretrained/crossvit_18_dagger_384_.pth',
-    'crossvit_9_224': 'pretrained/crossvit_9_224_.pth',
-    'crossvit_9_dagger_224': 'pretrained/crossvit_9_dagger_224_.pth',
-    'crossvit_small_224': 'pretrained/crossvit_small_224_.pth',
-    'crossvit_tiny_224': 'pretrained/crossvit_tiny_224_.pth',
+    'crossvit_15_224': 'https://github.com/IBM/CrossViT/releases/download/weights-0.1/crossvit_15_224.pth',
+    'crossvit_15_dagger_224': 'https://github.com/IBM/CrossViT/releases/download/weights-0.1/crossvit_15_dagger_224.pth',
+    'crossvit_15_dagger_384': 'https://github.com/IBM/CrossViT/releases/download/weights-0.1/crossvit_15_dagger_384.pth',
+    'crossvit_18_224': 'https://github.com/IBM/CrossViT/releases/download/weights-0.1/crossvit_18_224.pth',
+    'crossvit_18_dagger_224': 'https://github.com/IBM/CrossViT/releases/download/weights-0.1/crossvit_18_dagger_224.pth',
+    'crossvit_18_dagger_384': 'https://github.com/IBM/CrossViT/releases/download/weights-0.1/crossvit_18_dagger_384.pth',
+    'crossvit_9_224': 'https://github.com/IBM/CrossViT/releases/download/weights-0.1/crossvit_9_224.pth',
+    'crossvit_9_dagger_224': 'https://github.com/IBM/CrossViT/releases/download/weights-0.1/crossvit_9_dagger_224.pth',
+    'crossvit_small_224': 'https://github.com/IBM/CrossViT/releases/download/weights-0.1/crossvit_small_224.pth',
+    'crossvit_tiny_224': 'https://github.com/IBM/CrossViT/releases/download/weights-0.1/crossvit_tiny_224.pth',
 }
 
 
@@ -318,7 +320,7 @@ def crossvit_tiny_224(pretrained=False, **kwargs):
                               norm_layer=partial(nn.LayerNorm, eps=1e-6), **kwargs)
     model.default_cfg = _cfg()
     if pretrained:
-        state_dict = torch.load(_model_urls['crossvit_tiny_224'], map_location='cpu')
+        state_dict = torch.hub.load_state_dict_from_url(_model_urls['crossvit_tiny_224'], map_location='cpu')
         model.load_state_dict(state_dict)
     return model
 
@@ -331,7 +333,7 @@ def crossvit_small_224(pretrained=False, **kwargs):
                               norm_layer=partial(nn.LayerNorm, eps=1e-6), **kwargs)
     model.default_cfg = _cfg()
     if pretrained:
-        state_dict = torch.load(_model_urls['crossvit_small_224'], map_location='cpu')
+        state_dict = torch.hub.load_state_dict_from_url(_model_urls['crossvit_small_224'], map_location='cpu')
         model.load_state_dict(state_dict)
     return model
 
@@ -354,7 +356,7 @@ def crossvit_9_224(pretrained=False, **kwargs):
                               norm_layer=partial(nn.LayerNorm, eps=1e-6), **kwargs)
     model.default_cfg = _cfg()
     if pretrained:
-        state_dict = torch.load(_model_urls['crossvit_9_224'], map_location='cpu')
+        state_dict = torch.hub.load_state_dict_from_url(_model_urls['crossvit_9_224'], map_location='cpu')
         model.load_state_dict(state_dict)
     return model
 
@@ -367,7 +369,7 @@ def crossvit_15_224(pretrained=False, **kwargs):
                               norm_layer=partial(nn.LayerNorm, eps=1e-6), **kwargs)
     model.default_cfg = _cfg()
     if pretrained:
-        state_dict = torch.load(_model_urls['crossvit_15_224'], map_location='cpu')
+        state_dict = torch.hub.load_state_dict_from_url(_model_urls['crossvit_15_224'], map_location='cpu')
         model.load_state_dict(state_dict)
     return model
 
@@ -380,7 +382,7 @@ def crossvit_18_224(pretrained=False, **kwargs):
                               norm_layer=partial(nn.LayerNorm, eps=1e-6), **kwargs)
     model.default_cfg = _cfg()
     if pretrained:
-        state_dict = torch.load(_model_urls['crossvit_18_224'], map_location='cpu')
+        state_dict = torch.hub.load_state_dict_from_url(_model_urls['crossvit_18_224'], map_location='cpu')
         model.load_state_dict(state_dict)
     return model
 
@@ -393,7 +395,7 @@ def crossvit_9_dagger_224(pretrained=False, **kwargs):
                               norm_layer=partial(nn.LayerNorm, eps=1e-6), multi_conv=True, **kwargs)
     model.default_cfg = _cfg()
     if pretrained:
-        state_dict = torch.load(_model_urls['crossvit_9_dagger_224'], map_location='cpu')
+        state_dict = torch.hub.load_state_dict_from_url(_model_urls['crossvit_9_dagger_224'], map_location='cpu')
         model.load_state_dict(state_dict)
     return model
 
@@ -405,7 +407,7 @@ def crossvit_15_dagger_224(pretrained=False, **kwargs):
                               norm_layer=partial(nn.LayerNorm, eps=1e-6), multi_conv=True, **kwargs)
     model.default_cfg = _cfg()
     if pretrained:
-        state_dict = torch.load(_model_urls['crossvit_15_dagger_224'], map_location='cpu')
+        state_dict = torch.hub.load_state_dict_from_url(_model_urls['crossvit_15_dagger_224'], map_location='cpu')
         model.load_state_dict(state_dict)
     return model
 
@@ -417,7 +419,7 @@ def crossvit_15_dagger_384(pretrained=False, **kwargs):
                               norm_layer=partial(nn.LayerNorm, eps=1e-6), multi_conv=True, **kwargs)
     model.default_cfg = _cfg()
     if pretrained:
-        state_dict = torch.load(_model_urls['crossvit_15_dagger_384'], map_location='cpu')
+        state_dict = torch.hub.load_state_dict_from_url(_model_urls['crossvit_15_dagger_384'], map_location='cpu')
         model.load_state_dict(state_dict)
     return model
 
@@ -429,7 +431,7 @@ def crossvit_18_dagger_224(pretrained=False, **kwargs):
                               norm_layer=partial(nn.LayerNorm, eps=1e-6), multi_conv=True, **kwargs)
     model.default_cfg = _cfg()
     if pretrained:
-        state_dict = torch.load(_model_urls['crossvit_18_dagger_224'], map_location='cpu')
+        state_dict = torch.hub.load_state_dict_from_url(_model_urls['crossvit_18_dagger_224'], map_location='cpu')
         model.load_state_dict(state_dict)
     return model
 
@@ -441,6 +443,6 @@ def crossvit_18_dagger_384(pretrained=False, **kwargs):
                               norm_layer=partial(nn.LayerNorm, eps=1e-6), multi_conv=True, **kwargs)
     model.default_cfg = _cfg()
     if pretrained:
-        state_dict = torch.load(_model_urls['crossvit_18_dagger_384'], map_location='cpu')
+        state_dict = torch.hub.load_state_dict_from_url(_model_urls['crossvit_18_dagger_384'], map_location='cpu')
         model.load_state_dict(state_dict)
     return model
