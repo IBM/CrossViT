@@ -51,13 +51,13 @@ The directory structure is the standard layout for the torchvision [`datasets.Im
       img4.jpeg
 ```
 
-### Pretrained models
+## Pretrained models
 
 We provide models trained on ImageNet1K. You can find models [here](https://github.com/IBM/CrossViT/releases/tag/weights-0.1).
 And you can load pretrained weights into models by add `--pretrained` flag.
 
 
-### Training
+## Training
 
 To train `crossvit_9_dagger_224` on ImageNet on a single node with 8 gpus for 300 epochs run:
 
@@ -68,7 +68,7 @@ python -m torch.distributed.launch --nproc_per_node=8 --use_env main.py --model 
 
 Other model names can be found at [models/crossvit.py](models/crossvit.py).
 
-### Multinode training
+## Multinode training
 
 Distributed training is available via Slurm and `submitit`:
 
@@ -78,10 +78,25 @@ To train a `crossvit_9_dagger_224` model on ImageNet on 4 nodes with 8 gpus each
 python run_with_submitit.py --model crossvit_9_dagger_224 --data-path /path/to/imagenet --batch-size 128 --warmup-epochs 30
 ```
 
+Or you can start process on each machine maunally. E.g. 2 nodes, each with 8 gpus.
+
+Machine 0:
+```shell script
+
+python -m torch.distributed.launch --nproc_per_node=8 --master_addr=MACHINE_0_IP --master_port=AVAILABLE_PORT --nnodes=2 --node_rank=0 main.py --model crossvit_9_dagger_224 --batch-size 256 --data-path /path/to/imagenet
+```
+
+Machine 1:
+```shell script
+
+python -m torch.distributed.launch --nproc_per_node=8 --master_addr=MACHINE_0_IP --master_port=AVAILABLE_PORT --nnodes=2 --node_rank=1 main.py --model crossvit_9_dagger_224 --batch-size 256 --data-path /path/to/imagenet
+```
+
+
 Note that: some slurm configurations might need to be changed based on your cluster.
 
 
-### Evaluation
+## Evaluation
 
 To evaluate a pretrained model on `crossvit_9_dagger_224`:
 
