@@ -14,9 +14,8 @@ If you use the codes and models from this repo, please cite our work. Thanks!
 }
 ```
 
-## Image Classification
 
-### Installation
+## Installation
 
 To install requirements:
 
@@ -24,7 +23,16 @@ To install requirements:
 pip install -r requirements.txt
 ```
 
-### Data preparation
+With conda:
+
+```
+conda create -n crossvit python=3.8
+conda activate crossvit
+conda install pytorch=1.7.1 torchvision  cudatoolkit=11.0 -c pytorch -c nvidia
+pip install -r requirements.txt
+```
+
+## Data preparation
 
 Download and extract ImageNet train and val images from http://image-net.org/.
 The directory structure is the standard layout for the torchvision [`datasets.ImageFolder`](https://pytorch.org/docs/stable/torchvision/datasets.html#imagefolder), and the training and validation data is expected to be in the `train/` folder and `val` folder respectively:
@@ -46,6 +54,7 @@ The directory structure is the standard layout for the torchvision [`datasets.Im
 ### Pretrained models
 
 We provide models trained on ImageNet1K. You can find models [here](https://github.com/IBM/CrossViT/releases/tag/weights-0.1).
+And you can load pretrained weights into models by add `--pretrained` flag.
 
 
 ### Training
