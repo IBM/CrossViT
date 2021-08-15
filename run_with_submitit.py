@@ -90,10 +90,10 @@ def main():
     log_folder = args.model if args.suffix == '' else args.model + "-" + args.suffix
     if args.job_dir == "":
         args.job_dir = get_shared_folder() / Path(log_folder)
-
-    if not os.path.exists(args.job_dir):
-        os.makedirs(args.job_dir)
-    args.job_dir = Path(os.path.join(args.job_dir, log_folder))
+    else:
+        if not os.path.exists(args.job_dir):
+            os.makedirs(args.job_dir)
+        args.job_dir = Path(os.path.join(args.job_dir, log_folder))
 
     # Note that the folder will depend on the job_id, to easily track experiments
     executor = submitit.AutoExecutor(folder=args.job_dir, slurm_max_num_timeout=30)
