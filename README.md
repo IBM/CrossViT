@@ -75,7 +75,7 @@ Distributed training is available via Slurm and `submitit`:
 To train a `crossvit_9_dagger_224` model on ImageNet on 4 nodes with 8 gpus each for 300 epochs:
 
 ```
-python run_with_submitit.py --model crossvit_9_dagger_224 --data-path /path/to/imagenet --batch-size 128 --warmup-epochs 30
+python run_with_submitit.py --nodes 4 --model crossvit_9_dagger_224 --data-path /path/to/imagenet --batch-size 128 --warmup-epochs 30
 ```
 
 Or you can start process on each machine maunally. E.g. 2 nodes, each with 8 gpus.
