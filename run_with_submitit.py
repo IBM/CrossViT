@@ -6,6 +6,7 @@ A script to run multinode training with submitit.
 
 Mostly copy-paste from https://github.com/facebookresearch/deit/blob/main/run_with_submitit.py
 """
+
 import argparse
 import os
 import uuid
@@ -20,17 +21,21 @@ def parse_args():
     parser = argparse.ArgumentParser("Submitit for CrossViT", parents=[classification_parser])
     parser.add_argument("--ngpus", default=8, type=int, help="Number of gpus to request on each node")
     parser.add_argument("--nodes", default=2, type=int, help="Number of nodes to request")
-    parser.add_argument("--timeout", default=2800, type=int, help="Duration of the job")
+    parser.add_argument("--timeout", default=360, type=int, help="Duration of the job")
     parser.add_argument("--job_dir", default="", type=str, help="Job dir. Leave empty for automatic.")
+    parser.add_argument("--suffix", default="", type=str, help="Job dir. Leave empty for automatic.")
 
-    parser.add_argument("--partition", default="learnfair", type=str, help="Partition where to submit")
+    parser.add_argument("--partition", default="npl", type=str, help="Partition where to submit")
     return parser.parse_args()
 
 
 def get_shared_folder() -> Path:
-    user = os.getenv("USER")
-    if Path("/checkpoint/").is_dir():
-        p = Path(f"/checkpoint/{user}/experiments")
+
+    if not (Path.cwd() / "checkpoint").exists():
+        (Path.cwd() / "checkpoint").mkdir(exist_ok=True)
+
+    if (Path.cwd() / "checkpoint").is_dir():
+        p = Path.cwd() / "checkpoint" / "experiments"
         p.mkdir(exist_ok=True)
         return p
     raise RuntimeError("No shared folder available")
@@ -59,6 +64,7 @@ class Trainer(object):
         import os
         import submitit
 
+        self.args.seed = self.args.seed + 1
         self.args.dist_url = get_init_file().as_uri()
         checkpoint_file = os.path.join(self.args.output_dir, "checkpoint.pth")
         if os.path.exists(checkpoint_file):
@@ -81,8 +87,13 @@ class Trainer(object):
 
 def main():
     args = parse_args()
+    log_folder = args.model if args.suffix == '' else args.model + "-" + args.suffix
     if args.job_dir == "":
-        args.job_dir = get_shared_folder() / "%j"
+        args.job_dir = get_shared_folder() / Path(log_folder)
+
+    if not os.path.exists(args.job_dir):
+        os.makedirs(args.job_dir)
+    args.job_dir = Path(os.path.join(args.job_dir, log_folder))
 
     # Note that the folder will depend on the job_id, to easily track experiments
     executor = submitit.AutoExecutor(folder=args.job_dir, slurm_max_num_timeout=30)
@@ -92,7 +103,6 @@ def main():
     timeout_min = args.timeout
 
     partition = args.partition
-
     executor.update_parameters(
         mem_gb=40 * num_gpus_per_node,
         gpus_per_node=num_gpus_per_node,
@@ -103,9 +113,11 @@ def main():
         # Below are cluster dependent parameters
         slurm_partition=partition,
         slurm_signal_delay_s=120,
+        slurm_gres=f'gpu:{args.ngpus}'
     )
 
-    executor.update_parameters(name="crossvit")
+    job_name = log_folder
+    executor.update_parameters(name=job_name)
 
     args.dist_url = get_init_file().as_uri()
     args.output_dir = args.job_dir
@@ -113,7 +125,7 @@ def main():
     trainer = Trainer(args)
     job = executor.submit(trainer)
 
-    print("Submitted job_id:", job.job_id)
+    print("Submitted job_id:", job.job_id, " name: ", job_name)
 
 
 if __name__ == "__main__":
