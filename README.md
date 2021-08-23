@@ -8,7 +8,7 @@ If you use the codes and models from this repo, please cite our work. Thanks!
 @inproceedings{
     chen2021crossvit,
     title={{CrossViT: Cross-Attention Multi-Scale Vision Transformer for Image Classification}},
-    author={Chun-Fu (Richard) Chen and Rameswar Panda and Quanfu Fan},
+    author={Chun-Fu (Richard) Chen and Quanfu Fan and Rameswar Panda},
     booktitle={International Conference on Computer Vision (ICCV)},
     year={2021}
 }
