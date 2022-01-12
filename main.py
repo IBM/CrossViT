@@ -295,7 +295,7 @@ def main(args):
             max_accuracy = checkpoint['max_accuracy']
 
     if args.eval:
-        test_stats = evaluate(data_loader_val, model, device, num_tasks, distributed=True, amp=args.amp)
+        test_stats = evaluate(data_loader_val, model, device, num_tasks, distributed=args.distributed, amp=args.amp)
         print(f"Accuracy of the network on the {len(dataset_val)} test images: {test_stats['acc1']:.2f}%")
         return
 
@@ -316,7 +316,7 @@ def main(args):
 
         lr_scheduler.step(epoch)
 
-        test_stats = evaluate(data_loader_val, model, device, num_tasks, distributed=True, amp=args.amp)
+        test_stats = evaluate(data_loader_val, model, device, num_tasks, distributed=args.distributed, amp=args.amp)
         print(f"Accuracy of the network on the {len(dataset_val)} test images: {test_stats['acc1']:.2f}%")
         max_accuracy = max(max_accuracy, test_stats["acc1"])
         print(f'Max accuracy: {max_accuracy:.2f}%')
