@@ -211,6 +211,7 @@ class VisionTransformer(nn.Module):
         super().__init__()
 
         self.num_classes = num_classes
+        self.embed_dim = embed_dim
         if not isinstance(img_size, list):
             img_size = to_2tuple(img_size)
         self.img_size = img_size
@@ -281,7 +282,7 @@ class VisionTransformer(nn.Module):
 
     def reset_classifier(self, num_classes, global_pool=''):
         self.num_classes = num_classes
-        self.head = nn.Linear(self.embed_dim, num_classes) if num_classes > 0 else nn.Identity()
+        self.head = nn.ModuleList([nn.Linear(self.embed_dim[i], num_classes) if num_classes > 0 else nn.Identity() for i in range(self.num_branches)])
 
     def forward_features(self, x):
         B, C, H, W = x.shape
